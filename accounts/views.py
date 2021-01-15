@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import Product, Customer, Order
+from .forms import OrderForm
 
 
 def home(request):
@@ -36,3 +37,16 @@ def customer(request, pk):
         'order_count': order_count
     }
     return render(request, 'accounts/customer.html', context)
+
+
+def create_order(request):
+    form = OrderForm()
+    if request.method == 'POST':
+        # print('Printing Post', request.POST)
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context = {'form': form}
+    return render(request, 'accounts/order_form.html', context)
