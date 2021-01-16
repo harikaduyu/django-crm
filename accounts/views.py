@@ -42,7 +42,6 @@ def customer(request, pk):
 def create_order(request):
     form = OrderForm()
     if request.method == 'POST':
-        # print('Printing Post', request.POST)
         form = OrderForm(request.POST)
         if form.is_valid():
             form.save()
@@ -50,3 +49,21 @@ def create_order(request):
 
     context = {'form': form}
     return render(request, 'accounts/order_form.html', context)
+
+
+def update_order(request, pk):
+    order = Order.objects.get(id=pk)
+    form = OrderForm(instance=order)
+    if request.method == 'POST':
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    context = {'form': form}
+    return render(request, 'accounts/order_form.html', context)
+
+
+def delete_order(request, pk):
+    order = Order.objects.get(id=pk)
+    order.delete()
+    return redirect('/')
