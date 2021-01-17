@@ -5,14 +5,49 @@ body {
   background-color: #ebeff5;
 }
 
+body * {
+  font-family: 'TruenoRegular';
+  font-weight: normal;
+  font-style: normal;
+}
+
 #total-orders {
-  background-color: #4cb4c7;
+  background-color: #d19da2;
 }
 
 #orders-delivered {
-  background-color: #7abecc;
+  background-color: #b2c7d1;
 }
 
 #orders-pending {
-  background-color: #7cd1c0;
+  background-color: #d1cf9d;
+}
+
+.btn-primary {
+  background-color: #85846a;
+  border-color: #757456;
+}
+
+.btn-info {
+  background-color: #36576b;
+}
+
+.btn-danger {
+  background-color: #d17171;
+}
+
+.btn-warning {
+  background-color: #d1d085;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  color: #fff;
+  background-color: #afae83;
+  border-color: #757456; /*set the color you want here*/
+}
+.card-title {
+  padding-top: 1rem;
 }
