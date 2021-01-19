@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
 from .models import Product, Customer, Order
 from .forms import OrderForm
+# from .filters import OrderFilter
 
 
 def home(request):
@@ -39,14 +40,14 @@ def customer(request, pk):
     return render(request, 'accounts/customer.html', context)
 
 
-def create_order(request, pk):
+def create_order_view(request, pk):
     order_form_set = inlineformset_factory(
         Customer, Order, fields=('product', 'status'), extra=10)
-    customer = Customer.objects.get(id=pk)
+    customer_instance = Customer.objects.get(id=pk)
     formset = order_form_set(queryset=Order.objects.none(), instance=customer)
     # form = OrderForm(initial={'customer': customer})
     if request.method == 'POST':
-        formset = order_form_set(request.POST, instance=customer)
+        formset = order_form_set(request.POST, instance=customer_instance)
         if formset.is_valid():
             formset.save()
             return redirect('/')
@@ -55,7 +56,7 @@ def create_order(request, pk):
     return render(request, 'accounts/order_form.html', context)
 
 
-def update_order(request, pk):
+def update_order_view(request, pk):
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)
     if request.method == 'POST':
@@ -67,7 +68,7 @@ def update_order(request, pk):
     return render(request, 'accounts/order_form.html', context)
 
 
-def delete_order(request, pk):
+def delete_order_view(request, pk):
     order = Order.objects.get(id=pk)
     context = {'item': order}
     if request.method == 'POST':
