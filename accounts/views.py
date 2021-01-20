@@ -32,7 +32,8 @@ def customer(request, pk):
     customer_instance = Customer.objects.get(id=pk)
     orders = customer_instance.order_set.all()
     order_count = orders.count()
-    order_filter = OrderFilter()
+    order_filter = OrderFilter(request.GET, queryset=orders)
+    orders = order_filter.qs
     context = {
         'orders': orders,
         'customer': customer_instance,
@@ -46,8 +47,8 @@ def create_order_view(request, pk):
     order_form_set = inlineformset_factory(
         Customer, Order, fields=('product', 'status'), extra=10)
     customer_instance = Customer.objects.get(id=pk)
-    formset = order_form_set(queryset=Order.objects.none(), instance=customer)
-    # form = OrderForm(initial={'customer': customer})
+    formset = order_form_set(
+        queryset=Order.objects.none(), instance=customer_instance)
     if request.method == 'POST':
         formset = order_form_set(request.POST, instance=customer_instance)
         if formset.is_valid():
