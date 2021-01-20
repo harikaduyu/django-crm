@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
 from .models import Product, Customer, Order
 from .forms import OrderForm
-# from .filters import OrderFilter
+from .filters import OrderFilter
 
 
 def home(request):
@@ -32,10 +32,12 @@ def customer(request, pk):
     customer_instance = Customer.objects.get(id=pk)
     orders = customer_instance.order_set.all()
     order_count = orders.count()
+    order_filter = OrderFilter()
     context = {
         'orders': orders,
         'customer': customer_instance,
-        'order_count': order_count
+        'order_count': order_count,
+        'order_filter': order_filter
     }
     return render(request, 'accounts/customer.html', context)
 
