@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, logout
 from .models import Product, Customer, Order
 from .forms import OrderForm
 from .filters import OrderFilter
@@ -21,6 +23,24 @@ def home(request):
         'pending': pending
     }
     return render(request, 'accounts/dashboard.html', context)
+
+
+def user_login(request):
+    context = {}
+    return render(request, 'accounts/login.html', context)
+
+
+def user_register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    context = {'form': form}
+    return render(request, 'accounts/register.html', context)
 
 
 def product(request):
