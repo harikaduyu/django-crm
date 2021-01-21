@@ -1,6 +1,9 @@
 <h3>Register</h3>
 <form action="" method="POST">
   {% csrf_token %}
-  {{form.as_p}}
+  {% for item in form %}
+    {{ item.label }}
+    {{ item }}
+  {% endfor %}
   <input type="submit" name="Create User">
 </form>

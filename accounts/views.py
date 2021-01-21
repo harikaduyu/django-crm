@@ -3,7 +3,7 @@ from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout
 from .models import Product, Customer, Order
-from .forms import OrderForm
+from .forms import OrderForm, RegisterForm
 from .filters import OrderFilter
 
 
@@ -32,13 +32,13 @@ def user_login(request):
 
 def user_register(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = RegisterForm()
     context = {'form': form}
     return render(request, 'accounts/register.html', context)
 
