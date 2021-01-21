@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout
 from .models import Product, Customer, Order
 from .forms import OrderForm, RegisterForm

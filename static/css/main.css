@@ -45,7 +45,7 @@ body * {
 .open > .dropdown-toggle.btn-primary {
   color: #fff;
   background-color: #afae83;
-  border-color: #757456; /*set the color you want here*/
+  border-color: #757456;
 }
 .card-title {
   padding-top: 1rem;
