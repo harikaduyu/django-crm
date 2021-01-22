@@ -34,8 +34,8 @@ def user_register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect('home')
+            # login(request, user)
+            return redirect('login')
     else:
         form = RegisterForm()
     context = {'form': form}
