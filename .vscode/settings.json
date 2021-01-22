@@ -6,4 +6,5 @@
     "--disable=C0111", // missing docstring
     "--load-plugins=pylint_django,pylint_celery",
  ],
+ "emmet.includeLanguages": {"django-html": "html"},
 }
