@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
 from django.contrib.auth import login, logout
+from django.contrib import messages
 from .models import Product, Customer, Order
 from .forms import OrderForm, RegisterForm
 from .filters import OrderFilter
@@ -34,6 +35,8 @@ def user_register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
+            messages.success(
+                request, f'Account was created for {user.username}')
             # login(request, user)
             return redirect('login')
     else:
