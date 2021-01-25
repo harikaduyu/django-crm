@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Product, Customer, Order
 from .forms import OrderForm, RegisterForm
 from .filters import OrderFilter
-from .decorators import unauthenticated_user, allowed_users
+from .decorators import unauthenticated_user, allowed_users, admin_only
 
 
 @login_required(login_url='login')
