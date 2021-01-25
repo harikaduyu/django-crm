@@ -6,10 +6,11 @@ from django.contrib.auth.decorators import login_required
 from .models import Product, Customer, Order
 from .forms import OrderForm, RegisterForm
 from .filters import OrderFilter
-from .decorators import unauthenticated_user
+from .decorators import unauthenticated_user, allowed_users
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def home(request):
     orders = Order.objects.all()
     customers = Customer.objects.all()
@@ -71,12 +72,14 @@ def user_profile(request):
 
 
 @login_required(login_url='login')
-def product(request):
+@allowed_users(allowed_roles=['admin'])
+def products(request):
     products = Product.objects.all()
     return render(request, 'accounts/products.html', {'products': products})
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def customer(request, pk):
     customer_instance = Customer.objects.get(id=pk)
     orders = customer_instance.order_set.all()
@@ -93,6 +96,7 @@ def customer(request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def create_order_view(request, pk):
     order_form_set = inlineformset_factory(
         Customer, Order, fields=('product', 'status'), extra=10)
@@ -110,6 +114,7 @@ def create_order_view(request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def update_order_view(request, pk):
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)
@@ -123,6 +128,7 @@ def update_order_view(request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def delete_order_view(request, pk):
     order = Order.objects.get(id=pk)
     context = {'item': order}
