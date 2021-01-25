@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Product, Customer, Order
 from .forms import OrderForm, RegisterForm
 from .filters import OrderFilter
+from .decorators import unauthenticated_user
 
 
 @login_required(login_url='login')
@@ -27,9 +28,8 @@ def home(request):
     return render(request, 'accounts/dashboard.html', context)
 
 
+@unauthenticated_user
 def user_login(request):
-    if request.user.is_authenticated:
-        return redirect('home')
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -46,9 +46,8 @@ def user_login(request):
     return render(request, 'accounts/login.html', context)
 
 
+@unauthenticated_user
 def user_register(request):
-    if request.user.is_authenticated:
-        return redirect('home')
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -65,6 +64,10 @@ def user_register(request):
 def user_logout(request):
     logout(request)
     return redirect('login')
+
+
+def user_profile(request):
+    return render(request, 'accounts/user.html')
 
 
 @login_required(login_url='login')
