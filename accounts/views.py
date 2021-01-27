@@ -88,6 +88,13 @@ def user_profile(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['customer'])
+def account_settings(request):
+    context = {}
+    return render(request, 'accounts/account_settings.html', context)
+
+
+@login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def products(request):
     products = Product.objects.all()
