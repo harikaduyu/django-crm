@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Product, Customer, Order
-from .forms import OrderForm, RegisterForm
+from .forms import OrderForm, RegisterForm, CustomerForm
 from .filters import OrderFilter
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
@@ -90,7 +90,14 @@ def user_profile(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['customer'])
 def account_settings(request):
-    context = {}
+    customer = request.user.customer
+    if request.method == "POST":
+        form = CustomerForm(request.POST, request.FILES, instance=customer)
+        if form.is_valid():
+            form.save()
+    else:
+        form = CustomerForm(instance=customer)
+    context = {'form': form}
     return render(request, 'accounts/account_settings.html', context)
 
 
